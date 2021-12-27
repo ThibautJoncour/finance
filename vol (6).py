@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[61]:
-
-
 import pandas_datareader.data as web
 from datetime import datetime, timedelta
 import pandas as pd
@@ -200,7 +194,6 @@ returns = returns[-209:]
 np.shape(returns)
 
 
-# In[ ]:
 
 
 
@@ -259,20 +252,6 @@ plt.title('rate of volatility Prediction - Next 7 Days', fontsize=20)
 plt.legend(['ARMA','volatility', 'VAR'], fontsize=16)
 
 
-# train = returns[10:]
-# model = arch_model(train, p=1, q=10)
-# model_fit = model.fit(disp='off')
-# pred1 = model_fit.forecast(horizon=7)
-# future_dates = [returns.index[-1] + timedelta(days=i) for i in range(1,8)]
-# pred = pd.Series(np.sqrt(pred1.variance.values[-1,:]), index=future_dates)
-# plt.figure(figsize=(10,4))
-# plt.plot(pred)
-# plt.title('Volatility of volatility Prediction - Next 7 Days', fontsize=20)
-# #plt.plot(x[:4], color='red')
-# 
-# 
-# 
-# 
 
 # In[77]:
 
@@ -319,7 +298,6 @@ plt.axhline(x2, color = "black")
 plt.legend(['seuil 90% de confiance', 'seuil 80% de confiance'], fontsize=16)
 
 
-# In[ ]:
 
 
 
