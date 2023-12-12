@@ -1,0 +1,47 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+import matplotlib.pyplot as plt
+
+# Supposons que 'df' est votre DataFrame avec les colonnes 'binary_correlation' et 'correlation'
+# Assurez-vous d'ajuster les noms des colonnes en fonction de votre DataFrame
+df = df1
+df['correlation'] = df['corr BTC/SPX']
+
+df['binary_correlation'] = (df['corr BTC/SPX'] > 0).astype(int)
+
+
+# Créer une nouvelle colonne 'binary_correlation_t-1' pour représenter la corrélation binaire en t-1
+df['binary_correlation_t-1'] = df['binary_correlation'].shift(1)
+df['correlation_t-1'] = df['correlation'].shift(1)
+
+# Supprimer les lignes avec des valeurs manquantes résultant du décalage
+df = df.dropna()
+
+# Séparer les données en variables indépendantes (X) et dépendantes (Y)
+X = df['correlation_t-1'].values.reshape(-1, 1)
+Y = df['correlation'].values
+
+# Diviser les données en parties d'entraînement et de test
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, shuffle=False, random_state=42)
+
+# Créer et entraîner le modèle de régression linéaire avec les données d'entraînement
+model = LinearRegression()
+model.fit(X_train, Y_train)
+
+# Prédire les valeurs sur les données de test
+Y_pred = model.predict(X_test)
+
+# Calculer l'erreur quadratique moyenne
+mse = mean_squared_error(Y_test, Y_pred)
+print("Erreur quadratique moyenne :", mse)
+
+# Tracer la régression linéaire
+plt.scatter(X_test, Y_test, color='black', label='Données réelles')
+plt.plot(X_test, Y_pred, color='blue', linewidth=3, label='Régression linéaire')
+plt.xlabel('Corrélation binaire en t-1')
+plt.ylabel('Corrélation en t')
+plt.title('Régression Linéaire - Prédiction de Corrélation en t à partir de Corrélation en t-1')
+plt.legend()
+plt.show()
